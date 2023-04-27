@@ -1,0 +1,28 @@
+server:
+  port: 8888
+spring:
+  application:
+    name: mygame-gateway
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+    gateway:
+      routes:
+        - id: mygame-auth
+          uri: lb://mygame-auth
+          predicates:
+            - Path=/oauth/**
+        - id: mygame-ucenter
+          uri: lb://mygame-ucenter
+          predicates:
+            - Path=/user/**
+
+mygame:
+  gateway:
+    shouldSkipUrls:
+      - /oauth/**
+      - /user/register
+      - /user/login
+      - /check_token
+
